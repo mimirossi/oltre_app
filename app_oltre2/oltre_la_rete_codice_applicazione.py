@@ -44,7 +44,7 @@ class ChatGUI:
         if anger_score > 0.7:
             # Se l'Anger Score è alto, usa l'API per ottenere una risposta riscritta
             prompt = f'{"Assistant:"} Analizza il messaggio dell\'utente: {user_message}. Se l\'Anger Score è superiore a 0.7, riscrivi il messaggio in modo da ridurre lo score della rabbia.'
-            api_response = client.chat.completions.create(model="gpt-3.5-turbo",
+            api_response = client.chat.completions.create(model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
