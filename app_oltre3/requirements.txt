@@ -1,5 +1,5 @@
 streamlit
 pysentimiento
-openai==1.0.0
+openai migrate
 creds
 python-osc
