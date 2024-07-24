@@ -2,7 +2,7 @@ import streamlit as st
 from pysentimiento import create_analyzer
 from openai import OpenAI
 
-client = OpenAI(api_key="sk-proj-8JptXQ8FUg0wCPQVcvu3T3BlbkFJwP46a0KbBSvyUu82tP7m")
+client = OpenAI(api_key="sk-proj-drMlJPbX2DWeEdd0XkbWT3BlbkFJm0r1fsVcNPyCN5D8ZtGw")
 
 from pythonosc.udp_client import SimpleUDPClient
 from transformers import MarianMTModel, MarianTokenizer
