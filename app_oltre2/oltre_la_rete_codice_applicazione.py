@@ -3,8 +3,6 @@ from pysentimiento import create_analyzer
 from openai import OpenAI
 
 
-Authorization: Bearer OPENAI_API_KEY
-
 client = OpenAI(api_key="sk-proj-drMlJPbX2DWeEdd0XkbWT3BlbkFJm0r1fsVcNPyCN5D8ZtGw")
 
 from pythonosc.udp_client import SimpleUDPClient
