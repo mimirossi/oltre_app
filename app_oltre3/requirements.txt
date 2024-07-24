@@ -1,0 +1,5 @@
+streamlit
+pysentimiento
+openai==0.28
+creds
+python-osc
