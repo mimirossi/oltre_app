@@ -2,9 +2,8 @@ import streamlit as st
 from pysentimiento import create_analyzer
 from openai import OpenAI
 
-```bash
+
 Authorization: Bearer sk-proj-drMlJPbX2DWeEdd0XkbWT3BlbkFJm0r1fsVcNPyCN5D8ZtGw
-```
 
 client = OpenAI(api_key="sk-proj-drMlJPbX2DWeEdd0XkbWT3BlbkFJm0r1fsVcNPyCN5D8ZtGw")
 
