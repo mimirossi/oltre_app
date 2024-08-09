@@ -7,7 +7,7 @@ from openai import OpenAI
 
 client = OpenAI(
   organization='org-V05ALogBi5zwQYpqamNVpjRm',
-  project='$proj_fd7QAScm10pfoThPhZntwoI3',
+  project='$proj_g0ZWMewaBiYqYZDgUNmDPcOY',
   api_key='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',
 )
 
