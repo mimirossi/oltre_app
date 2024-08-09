@@ -5,7 +5,7 @@ from pythonosc.udp_client import SimpleUDPClient
 from transformers import MarianMTModel, MarianTokenizer
 
 # Configura l'API key di OpenAI correttamente
-openai.api_key = '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'
+openai.api_key = 'sk-3ziTP8SRh8WIp2UZ9coEJQgB8FbBCRaPaqXwnObZxVDtpOyFb2EkImMShoT3BlbkFJ6r-ddW26HuEGbjlzvkCI4Ft9k8nSFxe-P6o70eOlVe5OOhWqBkbuQgbE0A'
 
 # Funzione per mostrare i messaggi dell'utente con bordi arrotondati
 def user_message(message):
@@ -54,7 +54,7 @@ class ChatGUI:
             )
 
             # Estrai il testo modificato dalla risposta API
-            modified_message = api_response.choices[0].message['content'].strip()
+            modified_message = api_response['choices'][0]['message']['content'].strip()
         
         self.message_color = self.get_color_from_anger_score(anger_score)
         self.color_name = self.get_color_name_from_anger_score(anger_score)
