@@ -1,5 +1,5 @@
 streamlit
 pysentimiento
-openai
+openai==0.27.0
 creds
 python-osc
