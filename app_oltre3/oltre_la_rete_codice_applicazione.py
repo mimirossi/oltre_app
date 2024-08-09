@@ -1,18 +1,19 @@
-import openai
 import streamlit as st
 from pysentimiento import create_analyzer
+import openai
 from pythonosc.udp_client import SimpleUDPClient
 from transformers import MarianMTModel, MarianTokenizer
 
-# Imposta la tua chiave API
-openai.api_key = "sk-proj-ku8PFLYrq0FvNDpa6B0bT3BlbkFJBvnoMaVMImk7gTcugtCT"  # Sostituisci con la tua chiave API
+# Configura l'API key di OpenAI correttamente
+openai.api_key = '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'
 
-# Funzioni per visualizzare messaggi utente e bot
+# Funzione per mostrare i messaggi dell'utente con bordi arrotondati
 def user_message(message):
     st.markdown(f'<div class="user-message" style="display: flex; justify-content: flex-end; padding: 5px;">'
                 f'<div style="background-color: #196b1c; color: white; padding: 10px; border-radius: 10px;font-family:"Open Sauce One";font-size:18px; margin-bottom:10px; margin-left:20px;">{message}</div>'
                 f'</div>', unsafe_allow_html=True)
 
+# Funzione per mostrare i messaggi del bot con bordi arrotondati
 def bot_message(message):
     st.markdown(f'<div class="bot-message" style="display: flex; padding: 5px;">'
                 f'<div style="background-color: #074c85; color: white; padding: 10px; border-radius: 10px; font-size:18px; margin-bottom:10px; margin-right:20px;">{message}</div>'
@@ -24,7 +25,7 @@ class ChatGUI:
         self.translation_model = None  # Initialize to None, will be set later
         self.translation_tokenizer = None  # Initialize to None, will be set later
         self.osc_client = SimpleUDPClient("127.0.0.1", 23456)  # Initialize OSC client with appropriate IP address and port
-    
+
     def send_message(self, message):
         emotion_result = self.analyze_emotion(message)
         modification_suggestion, anger_score = self.suggest_modification(emotion_result, message)
@@ -41,7 +42,9 @@ class ChatGUI:
         # Modifica il messaggio dell'utente solo se l'Anger Score è alto
         if anger_score > 0.7:
             # Se l'Anger Score è alto, usa l'API per ottenere una risposta riscritta
-            prompt = f'{"Assistant:"} Analizza il messaggio dell\'utente: {user_message}. Se l\'Anger Score è superiore a 0.7, riscrivi il messaggio in modo da ridurre lo score della rabbia.'
+            prompt = f'Analizza il messaggio dell\'utente: "{user_message}". Se l\'Anger Score è superiore a 0.7, riscrivi il messaggio in modo da ridurre lo score della rabbia.'
+
+            # Effettua una richiesta utilizzando l'API di OpenAI
             api_response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -51,7 +54,8 @@ class ChatGUI:
             )
 
             # Estrai il testo modificato dalla risposta API
-            modified_message = api_response['choices'][0]['message']['content'].strip()
+            modified_message = api_response.choices[0].message['content'].strip()
+        
         self.message_color = self.get_color_from_anger_score(anger_score)
         self.color_name = self.get_color_name_from_anger_score(anger_score)
 
@@ -74,9 +78,6 @@ class ChatGUI:
         self.osc_client.send_message("/user_message", [user_message, anger_score_as_number])
         st.write(f"Messaggio dell'utente pubblicato: {user_message}")
 
-        # Invia l'informazione del colore a TouchDesigner
-        self.osc_client.send_message("/message_color", self.message_color)
-        
     def get_color_name_from_anger_score(self, anger_score):
         # Definisci il colore in base all'Anger Score
         if 0 <= anger_score <= 0.33:
@@ -95,47 +96,50 @@ class ChatGUI:
         else:
             return "r=1 g=0 b=0"  # rosso
 
-# Define the main Streamlit app
+
+# Definisci l'app principale di Streamlit
 def main():
     st.title("Sentiment Analysis Chat")
 
-    # Initialize chat history
+    # Inizializza la cronologia della chat
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
     chat_gui = ChatGUI()
 
-    # Initialize anger_score in session state
+    # Inizializza anger_score nello stato della sessione
     if "anger_score" not in st.session_state:
         st.session_state.anger_score = 0.0
 
-    # Input field for user to enter a message
+    # Campo di input per l'utente per inserire un messaggio
     user_input = st.text_input("Inserisci il messaggio:")
-    # Button to send the user's message
+
+    # Bottone per inviare il messaggio dell'utente
     if st.button("Analizza"):
         if user_input:
             modification_suggestion, anger_score = chat_gui.send_message(user_input)
 
-            # Store anger_score in session state
+            # Memorizza l'anger_score nello stato della sessione
             st.session_state.anger_score = anger_score
 
-            # Add the user's message to the chat history
+            # Aggiungi il messaggio dell'utente alla cronologia della chat
             st.session_state.chat_history.append((user_input, False))
 
-            # Display the user's message
+            # Mostra il messaggio dell'utente
             user_message(user_input)
 
-            # Display the modification suggestion from the bot
+            # Mostra la modifica suggerita dal bot
             bot_message(modification_suggestion)
 
-            # Display anger score (optional)
+            # Mostra l'anger score (opzionale)
             st.write(f"Anger Score: {anger_score}")
-        
-    # Button to publish data
+
+    # Bottone per pubblicare i dati
     if st.button("Pubblica"):
-         if user_input:            
+        if user_input:            
             chat_gui.publish_data(user_input, st.session_state.anger_score)
 
-# Run the app
+
+# Esegui l'app
 if __name__ == "__main__":
     main()
