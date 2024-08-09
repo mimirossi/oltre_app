@@ -3,7 +3,12 @@ from pysentimiento import create_analyzer
 from openai import OpenAI
 
 
-client = OpenAI(api_key="sk-proj-drMlJPbX2DWeEdd0XkbWT3BlbkFJm0r1fsVcNPyCN5D8ZtGw")
+from openai import OpenAI
+
+client = OpenAI(
+  organization='org-V05ALogBi5zwQYpqamNVpjRm',
+  project='$proj_fd7QAScm10pfoThPhZntwoI3',
+)
 
 from pythonosc.udp_client import SimpleUDPClient
 from transformers import MarianMTModel, MarianTokenizer
