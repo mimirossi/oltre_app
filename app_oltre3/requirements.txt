@@ -1,6 +1,6 @@
 streamlit
 pysentimiento
---upgrade openai
+--upgradeopenai
 openai
 creds
 python-osc
