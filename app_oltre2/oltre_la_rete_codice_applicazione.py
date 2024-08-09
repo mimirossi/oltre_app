@@ -8,6 +8,7 @@ from openai import OpenAI
 client = OpenAI(
   organization='org-V05ALogBi5zwQYpqamNVpjRm',
   project='$proj_fd7QAScm10pfoThPhZntwoI3',
+  api_key='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',
 )
 
 from pythonosc.udp_client import SimpleUDPClient
