@@ -5,7 +5,7 @@ from pythonosc.udp_client import SimpleUDPClient
 from transformers import MarianMTModel, MarianTokenizer
 
 # Configura l'API key di OpenAI correttamente
-openai.api_key = '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'
+openai.api_key = 'sk-wJQfXMsGJL3NEhsMuHzWRIkDe1Jsmm0G5ayNjy2m6QT3BlbkFJF_USC5UJqsh1BNjjMTchL9g65cRtN-q3ZOSngW8EAA'
 
 # Funzione per mostrare i messaggi dell'utente con bordi arrotondati
 def user_message(message):
